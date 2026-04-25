@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "defaultHabitColor": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A single task for a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "due_time": { "type": "string" },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "estimated_duration_minutes": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "title", "date", "priority", "estimated_duration_minutes"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "A recurring habit for a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "start_date": { "type": "string" },
+        "preferred_time": { "type": "string" },
+        "frequency_type": { "type": "string", "enum": ["daily", "weekly", "monthly"] },
+        "frequency_detail": { "type": "array", "items": { "type": "string" } },
+        "estimated_duration_minutes": { "type": "number" },
+        "skipped_dates": { "type": "array", "items": { "type": "string" } },
+        "color": { "type": "string" },
+        "overrides": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "title", "start_date", "preferred_time", "frequency_type", "estimated_duration_minutes"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "A single note for a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "title", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/users/{uid}/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "User's tasks"
+    },
+    "/users/{uid}/habits/{habitId}": {
+      "schema": "Habit",
+      "description": "User's habits"
+    },
+    "/users/{uid}/notes/{noteId}": {
+      "schema": "Note",
+      "description": "User's notes"
+    }
+  }
+}
